@@ -1,0 +1,17 @@
+{
+  "name": "multi-token-distributor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "pretest": "node scripts/generateMerkle.js",
+    "test": "forge test --ffi",
+    "build": "forge build"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "@openzeppelin/contracts-upgradeable": "^5.4.0",
+    "ethers": "^5.0.0",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.2.31"
+  }
+}
