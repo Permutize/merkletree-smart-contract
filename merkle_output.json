@@ -1,0 +1,23 @@
+{
+  "root": "0x9b3c7895af265e93703b7c14d4ee9489ed0a05bf1eadbe35ec2f0081b6e7c78d",
+  "claims": {
+    "0x813e5fbbb229c88406533ef67e441aba7e6ca5dd": [
+      {
+        "index": 99,
+        "token": "0xf817257fed379853cde0fa4f97ab987181b1e5ea",
+        "amount": "1500",
+        "proof": [
+          "0x85ca7ad685f77c02263a8faef778fb9898f4295593fed25acb5d5029073adef5"
+        ]
+      },
+      {
+        "index": 100,
+        "token": "0x0000000000000000000000000000000000000000",
+        "amount": "75000000000000000",
+        "proof": [
+          "0x1e9de5d20bef19703c17ee7a8144e33e01b7ec2f2d682b440b15f01555f7fb07"
+        ]
+      }
+    ]
+  }
+}
