@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/Ownable2StepUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
@@ -9,7 +9,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 contract MultiTokenDistributorUpgradeable is 
-    OwnableUpgradeable, 
+    Ownable2StepUpgradeable, 
     PausableUpgradeable, 
     ReentrancyGuardUpgradeable 
 {
@@ -30,7 +30,7 @@ contract MultiTokenDistributorUpgradeable is
 
     /// @notice initialize contract
     function initialize(bytes32 _merkleRoot) public initializer {
-        __Ownable_init();
+        __Ownable2Step_init();
         __Pausable_init();
         __ReentrancyGuard_init();
 
