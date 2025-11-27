@@ -18,9 +18,15 @@ contract MultiTokenDistributorUpgradeable is
     bytes32 public merkleRoot;
     mapping(uint256 => uint256) private claimedBitMap;
 
+    // === Timelock Merkle Root Upgrade ===
+    bytes32 public pendingMerkleRoot;
+    uint256 public pendingMerkleRootTimestamp;
+    uint256 public constant MERKLE_ROOT_DELAY = 24 hours;
+
     event Claimed(uint256 indexed index, address indexed account, address token, uint256 amount);
     event ClaimedMany(address indexed account, uint256 count);
-    event MerkleRootUpdated(bytes32 merkleRoot);
+    event MerkleRootProposed(bytes32 merkleRoot, uint256 timestamp);
+    event MerkleRootFinalized(bytes32 merkleRoot);
     event WithdrawAll(address indexed owner, uint256 ethAmount, address[] tokens);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -37,10 +43,32 @@ contract MultiTokenDistributorUpgradeable is
         merkleRoot = _merkleRoot;
     }
 
-    // --- Admin functions ---
-    function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
-        merkleRoot = _merkleRoot;
-        emit MerkleRootUpdated(_merkleRoot);
+    // -----------------------
+    //  ADMIN: TIMELOCK UPDATE
+    // -----------------------
+
+    /// @notice Propose a new Merkle root — must wait MERKLE_ROOT_DELAY to finalize
+    function proposeMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
+        pendingMerkleRoot = _merkleRoot;
+        pendingMerkleRootTimestamp = block.timestamp;
+
+        emit MerkleRootProposed(_merkleRoot, block.timestamp);
+    }
+
+    /// @notice Finalize Merkle root update after delay
+    function finalizeMerkleRoot() external onlyOwner {
+        require(pendingMerkleRoot != bytes32(0), "No pending Merkle root");
+        require(
+            block.timestamp >= pendingMerkleRootTimestamp + MERKLE_ROOT_DELAY,
+            "Delay not passed"
+        );
+
+        merkleRoot = pendingMerkleRoot;
+
+        emit MerkleRootFinalized(pendingMerkleRoot);
+
+        pendingMerkleRoot = bytes32(0);
+        pendingMerkleRootTimestamp = 0;
     }
 
     function pause() external onlyOwner {
